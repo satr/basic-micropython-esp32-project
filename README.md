@@ -15,10 +15,38 @@ $ls /dev/ttyUSB*
 /dev/ttyUSB0
 ```
 * [rshell](https://pypi.org/project/rshell/) - Remote MicroPython shell ([GitHub](https://github.com/dhylands/rshell))
+`pip install --user rshell`
 * IntelliJ [PyCharm](https://www.jetbrains.com/pycharm/)
 * IntelliJ PyCharm plugin [MicroPython](https://github.com/vlasovskikh/intellij-micropython)
 ## Optionally
 * Install [MicroPython](https://github.com/micropython/micropython)
+Get MicroPython source
+```
+cd ~ && mkdir dev && cd dev
+git clone https://github.com/micropython/micropython.git
+```
+Build the cross-compiler
+```
+cd micropython/mpy-cross && make
+```
+Navigate back to the `micropython` folder
+```
+cd ..
+```
+Update submodules
+```
+git submodule update --init
+```
+Navigate to the Unix port folder and build the MicroPython
+```
+cd ports/unix
+make
+```
+In case of an error _modffi.c:32:17: fatal error: ffi.h: No such file or directory_
+Try the built MicroPython
+```
+
+```
 * Install [upip](https://pypi.org/project/micropython-upip/) - MicropPython package manager
 ```
 pip install micropython-upip
