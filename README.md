@@ -55,15 +55,26 @@ Options to overcome this:
 ```
 make MICROPY_PY_FFI=1
 ```
-2. Check if an environment variable PKG_CONFIG_PATH points to the folder, containing the folder `pkg_config` and a file `libffi.pc`. If not - fix this, restart the terminal and try to build again.
+2. Check if an environment variable PKG_CONFIG_PATH points to the folder, containing the folder `pkg_config` and a file `libffi.pc`. If not - temporary change this (without restarting the terminal) and build again.
 ```
 printenv PKG_CONFIG_PATH
 ```
-To change it - edit a file `~/.bash_profile` or a file `~/.bashrc` (and restart the terminal)
+Find the path
+```
+cd / && sudo find -name libffi.pc | grep libffi.pc
+```
+Example of such found path `/usr/lib/x86_64-linux-gnu/pkgconfig/libffi.pc`
+Set the `PKG_CONFIG_PATH` variable
+```
+PKG_CONFIG_PATH=/usr/lib/x86_64-linux-gnu/pkgconfig/
+```
+(To change it permanently - edit a file `~/.bash_profile` or a file `~/.bashrc` and restart the terminal)
 3. Install `libffi-dev`
 ```
 sudo apt-get install libffi-dev
 ```
+Set the path to the `PKG_CONFIG_PATH` variable, as explained in the option #2. Build the MicroPython again.
+
 * Install [upip](https://pypi.org/project/micropython-upip/) - MicropPython package manager
 ```
 pip install micropython-upip
