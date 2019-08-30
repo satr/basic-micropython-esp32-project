@@ -37,15 +37,32 @@ Update submodules
 ```
 git submodule update --init
 ```
-Navigate to the Unix port folder and build the MicroPython
+Add development componebts for libffi
+```
+sudo apt-get install libffi-dev
+```
+Navigate to the Unix port folder and build the MicroPython. `MICROPY_PY_FFI=1` includes library `libffi`, which is _a portable foreign-function interface library_ (on [GitHub](https://github.com/libffi/libffi)).
 ```
 cd ports/unix
-make
+make MICROPY_PY_FFI=1
 ```
-In case of an error _modffi.c:32:17: fatal error: ffi.h: No such file or directory_
-Try the built MicroPython
+There is a good chance to see errors like:
+_modffi.c:32:17: fatal error: ffi.h: No such file or directory_
+or _Package libffi was not found in the pkg-config search path_
+or _Perhaps you should add the directory containing libffi.pc_
+Options to overcome this:
+1. Built the MicroPython without this library. Some functions will not be available *as far as I understood)
 ```
-
+make MICROPY_PY_FFI=1
+```
+2. Check if an environment variable PKG_CONFIG_PATH points to the folder, containing the folder `pkg_config` and a file `libffi.pc`. If not - fix this, restart the terminal and try to build again.
+```
+printenv PKG_CONFIG_PATH
+```
+To change it - edit a file `~/.bash_profile` or a file `~/.bashrc` (and restart the terminal)
+3. Install `libffi-dev`
+```
+sudo apt-get install libffi-dev
 ```
 * Install [upip](https://pypi.org/project/micropython-upip/) - MicropPython package manager
 ```
