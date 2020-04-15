@@ -37,10 +37,6 @@ Update submodules
 ```
 git submodule update --init
 ```
-Add development componebts for libffi
-```
-sudo apt-get install libffi-dev
-```
 Navigate to the Unix port folder and build the MicroPython. `MICROPY_PY_FFI=1` includes library `libffi`, which is _a portable foreign-function interface library_ (on [GitHub](https://github.com/libffi/libffi)).
 ```
 cd ports/unix
@@ -51,9 +47,9 @@ _modffi.c:32:17: fatal error: ffi.h: No such file or directory_
 or _Package libffi was not found in the pkg-config search path_
 or _Perhaps you should add the directory containing libffi.pc_
 Options to overcome this:
-1. Built the MicroPython without this library. Some functions will not be available *as far as I understood)
+1. Built the MicroPython without this library. Some functions will not be available (as far as I understood)
 ```
-make MICROPY_PY_FFI=1
+make MICROPY_PY_FFI=0
 ```
 2. Check if an environment variable PKG_CONFIG_PATH points to the folder, containing the folder `pkg_config` and a file `libffi.pc`. If not - temporary change this (without restarting the terminal) and build again.
 ```
@@ -61,17 +57,23 @@ printenv PKG_CONFIG_PATH
 ```
 Find the path
 ```
+#Linux
 cd / && sudo find -name libffi.pc | grep libffi.pc
+#MacOS
+cd / && sudo find libffi.pc . | grep libffi.pc
 ```
 Example of such found path `/usr/lib/x86_64-linux-gnu/pkgconfig/libffi.pc`
 Set the `PKG_CONFIG_PATH` variable
 ```
 PKG_CONFIG_PATH=/usr/lib/x86_64-linux-gnu/pkgconfig/
 ```
-(To change it permanently - edit a file `~/.bash_profile` or a file `~/.bashrc` and restart the terminal)
+(To change it permanently - edit a file `~/.bash_profile`, a file `~/.bashrc` or a file `~/.zshrc` and restart the terminal)
 3. Install `libffi-dev`
 ```
+#Linux
 sudo apt-get install libffi-dev
+#MacOS
+brew install libffi
 ```
 Set the path to the `PKG_CONFIG_PATH` variable, as explained in the option #2. Build the MicroPython again.
 
